@@ -49,43 +49,37 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// ==================== Navbar Scroll Effect ====================
+// ==================== Navbar Scroll Effect & Active Navigation ====================
 const navbar = document.getElementById('navbar');
+const sections = document.querySelectorAll('section[id]');
 let lastScroll = 0;
 
-window.addEventListener('scroll', () => {
+function handleScroll() {
     const currentScroll = window.pageYOffset;
     
+    // Navbar scroll effect
     if (currentScroll > 100) {
         navbar.classList.add('scrolled');
     } else {
         navbar.classList.remove('scrolled');
     }
     
-    lastScroll = currentScroll;
-});
-
-// ==================== Active Navigation Link ====================
-const sections = document.querySelectorAll('section[id]');
-
-function highlightNavigation() {
-    const scrollY = window.pageYOffset;
-    
+    // Active navigation link
     sections.forEach(section => {
         const sectionHeight = section.offsetHeight;
         const sectionTop = section.offsetTop - 100;
         const sectionId = section.getAttribute('id');
         const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
         
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        if (currentScroll > sectionTop && currentScroll <= sectionTop + sectionHeight) {
             navLink?.classList.add('active');
         } else {
             navLink?.classList.remove('active');
         }
     });
+    
+    lastScroll = currentScroll;
 }
-
-window.addEventListener('scroll', highlightNavigation);
 
 // ==================== Smooth Scroll ====================
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -208,18 +202,8 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ==================== Performance Optimization ====================
-// Lazy load images
-if ('loading' in HTMLImageElement.prototype) {
-    const images = document.querySelectorAll('img[loading="lazy"]');
-    images.forEach(img => {
-        img.src = img.src;
-    });
-} else {
-    // Fallback for browsers that don't support lazy loading
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
-    document.body.appendChild(script);
-}
+// Lazy load images - All modern browsers support native lazy loading
+// Images with loading="lazy" attribute will load automatically when needed
 
 // ==================== Analytics & Tracking ====================
 // Placeholder for analytics tracking
@@ -274,10 +258,7 @@ function throttle(func, limit) {
 }
 
 // Use throttled scroll handler for better performance
-const throttledScrollHandler = throttle(() => {
-    highlightNavigation();
-}, 100);
-
+const throttledScrollHandler = throttle(handleScroll, 100);
 window.addEventListener('scroll', throttledScrollHandler);
 
 console.log('Portfolio loaded successfully! 🚀');
