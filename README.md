@@ -1,5 +1,7 @@
 # Data Scientist Portfolio Website
 
+[![View Live Website](https://img.shields.io/badge/View-Live%20Website-2563eb?style=for-the-badge&logo=github)](https://isandeep06.github.io/Portfolio/)
+
 A modern, responsive portfolio website designed specifically for Data Scientists to showcase their skills, projects, and professional experience. Built with HTML, CSS, and JavaScript, this portfolio is optimized for GitHub Pages deployment.
 
 ## 🌟 Features
